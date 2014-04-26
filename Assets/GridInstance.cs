@@ -1,28 +1,42 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class GridInstance : MonoBehaviour {
     public int xSize = 8;
-    public int ySize = 3;
     public int zSize = 8;
 
     public int yBeginHeight = 3;
-    public float ySpeed = 0;
+    public float ySpeed = 0.1f;
 
     public float marigin = 1.2f;
 
-    public Transform[,,]    grid;
+    //public Transform[,,]    grid;
     public Transform        cubePrefab;
+
+    public List<Transform[,]> dynGrid = new List<Transform[,]>();
+
+    public Transform[,] GetGrid2D(int height)
+    {
+        return dynGrid[height];
+    }
+
+    public Transform GetGridObject(int x, int y, int z)
+    {
+        return dynGrid[y][x, z];
+    }
+
+    public int ySize { get { return dynGrid.Count; } }
 
     // Use this for initialization
     void Start () {
-        grid = new Transform[xSize, ySize, zSize];
+        //grid = new Transform[xSize, ySize, zSize];
         
         var palettes = GetComponent<LayerColors>().palettes;
 
-        for (int x = 0; x < xSize; x++)
+        for (int y = 0; y < yBeginHeight; y++)
         {
-            for (int y = 0; y < yBeginHeight; y++)
+            Transform[,] grid2D = new Transform[xSize, zSize];
+            for (int x = 0; x < xSize; x++)
             {
                 for (int z = 0; z < zSize; z++)
                 {
@@ -35,11 +49,12 @@ public class GridInstance : MonoBehaviour {
                     if (y < ySize - 1)
                         obj.collider.enabled = false;
 
-                    grid[x, y, z] = obj;
+                    //grid[x, y, z] = obj;
+                    grid2D[x, z] = obj;
                 }
             }
+            dynGrid.Add(grid2D);
         }
-
         // Check for cubes that can't be taken
         for (int x = 0; x < xSize; x++)
         {
@@ -47,7 +62,8 @@ public class GridInstance : MonoBehaviour {
             {
                 for (int z = 0; z < zSize; z++)
                 {
-                    var obj = grid[x, y, z];
+                    //var obj = grid[x, y, z];
+                    var obj = dynGrid[y][x, z];
 
                     bool canBeTaken = false;
                     Transform otherObj = null;
@@ -65,7 +81,9 @@ public class GridInstance : MonoBehaviour {
                                 nx >= 0 &&
                                 nz >= 0)
                             {
-                                otherObj = grid[nx, y, nz];
+                                //otherObj = grid[nx, y, nz];
+                                var d = dynGrid[y];
+                                otherObj = d[nx, nz];
 
                                 if (obj.renderer.material.color == otherObj.renderer.material.color)
                                 {
@@ -95,10 +113,9 @@ public class GridInstance : MonoBehaviour {
             {
                 for (int z = 0; z < zSize; z++)
                 {
-                    var obj = grid[x, y, z];
+                    //var obj = grid[x, y, z];
+                    var obj = dynGrid[y][x, z];
                     obj.position += Vector3.up * ySpeed * Time.deltaTime;
-
-                    Vector3 roundAdjust = obj.position + Vector3.one * 0.5f;
                 }
             }
         }

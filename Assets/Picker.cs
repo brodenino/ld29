@@ -92,7 +92,9 @@ public class Picker : MonoBehaviour {
     void GetAliveObjectsAbove(GridInstance gridInstance, Transform pick, List<Transform> aliveObjects)
     {
         var pickComponent = pick.GetComponent<Picker>();
-        var objectAbove = gridInstance.grid[(int)(pickComponent.index.x), (int)Mathf.Min(gridInstance.ySize - 1, pickComponent.index.y + 1), (int)(pickComponent.index.z)];
+        //var objectAbove = gridInstance.grid[(int)(pickComponent.index.x), (int)Mathf.Min(gridInstance.ySize - 1, pickComponent.index.y + 1), (int)(pickComponent.index.z)];
+        var objectAbove = gridInstance.GetGridObject((int)(pickComponent.index.x), (int)Mathf.Min(gridInstance.ySize - 1, pickComponent.index.y + 1), (int)(pickComponent.index.z));
+        
         if (objectAbove != pick)// && objectAbove.collider.enabled)
         {
             aliveObjects.Add(objectAbove);
@@ -120,11 +122,15 @@ public class Picker : MonoBehaviour {
 
             var pickComponent = pick.GetComponent<Picker>();
 
-            var objectBeneath = gridInstance.grid[(int)(pickComponent.index.x), (int)Mathf.Max(0, pickComponent.index.y - 1), (int)(pickComponent.index.z)];
+            //var objectBeneath = gridInstance.grid[(int)(pickComponent.index.x), (int)Mathf.Max(0, pickComponent.index.y - 1), (int)(pickComponent.index.z)];
+            var objectBeneath = gridInstance.GetGridObject((int)(pickComponent.index.x), (int)Mathf.Max(0, pickComponent.index.y - 1), (int)(pickComponent.index.z));
+            
             if (objectBeneath != pick)
                 objectBeneath.collider.enabled = true;
 
-            var objectAbove = gridInstance.grid[(int)(pickComponent.index.x), (int)Mathf.Min(gridInstance.ySize - 1, pickComponent.index.y + 1), (int)(pickComponent.index.z)];
+            //var objectAbove = gridInstance.grid[(int)(pickComponent.index.x), (int)Mathf.Min(gridInstance.ySize - 1, pickComponent.index.y + 1), (int)(pickComponent.index.z)];
+            var objectAbove = gridInstance.GetGridObject((int)(pickComponent.index.x), (int)Mathf.Min(gridInstance.ySize - 1, pickComponent.index.y + 1), (int)(pickComponent.index.z));
+            
             if (objectAbove != pick && objectAbove.collider.enabled)
             {
                 objectAbove.GetComponent<Picker>().fadeOutCurrent = fadeOutDuration;
@@ -149,21 +155,25 @@ public class Picker : MonoBehaviour {
                     int nx = Mathf.Clamp((int)(randomPickComponent.index.x) + x, 0, gridInstance.xSize - 1);
                     int nz = Mathf.Clamp((int)(randomPickComponent.index.z) + z, 0, gridInstance.zSize - 1);
 
-                    var neighbour = gridInstance.grid[nx, (int)randomPickComponent.index.y, nz];
+                    //var neighbour = gridInstance.grid[nx, (int)randomPickComponent.index.y, nz];
+                    var neighbour = gridInstance.GetGridObject(nx, (int)randomPickComponent.index.y, nz);
+                    
                     if (neighbour != explodeObj)
                     {
                         neighbour.GetComponent<Picker>().fadeOutCurrent = fadeOutDuration;
                         neighbour.collider.enabled = false;
 
                         var neighbourPick = neighbour.GetComponent<Picker>();
-                        var objectBeneath = gridInstance.grid[(int)(neighbourPick.index.x), (int)Mathf.Max(0, neighbourPick.index.y - 1), (int)(neighbourPick.index.z)];
+                        //var objectBeneath = gridInstance.grid[(int)(neighbourPick.index.x), (int)Mathf.Max(0, neighbourPick.index.y - 1), (int)(neighbourPick.index.z)];
+                        var objectBeneath = gridInstance.GetGridObject((int)(neighbourPick.index.x), (int)Mathf.Max(0, neighbourPick.index.y - 1), (int)(neighbourPick.index.z));
+                        
                         if (objectBeneath != neighbour)
                             objectBeneath.collider.enabled = true;
 
                         List<Transform> aboveObjects = new List<Transform>();
                         GetAliveObjectsAbove(gridInstance, neighbour, aboveObjects);
 
-                        Debug.Log("Objects to break: " + aboveObjects.Count);
+                        //Debug.Log("Objects to break: " + aboveObjects.Count);
                         foreach (Transform t in aboveObjects)
                         {
                             t.GetComponent<Picker>().fadeOutCurrent = fadeOutDuration;
