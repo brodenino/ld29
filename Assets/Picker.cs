@@ -7,6 +7,7 @@ public class Picker : MonoBehaviour {
     static List<Transform> pickedObjects = new List<Transform>();
 
     public Vector3 index;
+    public int colorType;
     public float fadeOutDuration = 0.5f;
 
     public float fadeOutCurrent = 0;
@@ -29,11 +30,20 @@ public class Picker : MonoBehaviour {
             color.a = Mathf.Lerp(1, 0, (fadeOutDuration - fadeOutCurrent) / fadeOutDuration);
             renderer.material.color = color;
 
+            foreach (Transform child in transform)
+            {
+                child.renderer.material.color = color;
+            }
+
             transform.position -= Vector3.up * 1.0f * Time.deltaTime;
 
             if (fadeOutCurrent == 0)
             {
                 renderer.enabled = false;
+                foreach (Transform child in transform)
+                {
+                    child.renderer.enabled = false;
+                }
             }
         }
     }
@@ -47,11 +57,13 @@ public class Picker : MonoBehaviour {
         // If the current object has a matching color, and is within radius of the previous picked object, then it is also valid.
         var previousPick = pickedObjects[pickedObjects.Count-1];
         float distance = Vector3.Distance(previousPick.position, transform.position);
-        if (distance <= 2.0f && previousPick.renderer.material.color == renderer.material.color && transform.childCount == 0)
+        if (distance <= 2.0f && previousPick.renderer.material.color == renderer.material.color && GetComponentInChildren<SelectionCube>() == null)
         {
             // Should also exist in the current layer
             if (transform.parent == previousPick.parent)
                 return true;
+            //if (index.y == previousPick.GetComponent<Picker>().index.y)
+            //    return true;
         }
 
         return false;
@@ -110,7 +122,7 @@ public class Picker : MonoBehaviour {
         if (pickedObjects.Count < 2)
         {
             pickedObjects[0].collider.enabled = true;
-            Destroy(pickedObjects[0].GetChild(0).gameObject);
+            Destroy(pickedObjects[0].GetComponentInChildren<SelectionCube>().gameObject);
             pickedObjects.Clear();
         }
 
@@ -147,7 +159,7 @@ public class Picker : MonoBehaviour {
 
             pickComponent.fadeOutCurrent = fadeOutDuration;
             if (pick.transform.childCount > 0)
-                pick.transform.GetChild(0).renderer.enabled = false;
+                pick.GetComponentInChildren<SelectionCube>().renderer.enabled = false;
         }
 
         int i = 0;

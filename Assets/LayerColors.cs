@@ -9,6 +9,7 @@ public class LayerColors : MonoBehaviour {
     [Serializable]
     public class ColorPalette
     {
+        public Color baseColor;
         public Color[] colors;
     }
 

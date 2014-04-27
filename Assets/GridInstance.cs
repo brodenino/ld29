@@ -56,11 +56,18 @@ public class GridInstance : MonoBehaviour {
                 int y = ySize % palettes.Length;
                 int type = Random.Range(0, palettes[y].colors.Length);
 
-                //obj.renderer.material.mainTexture = overlays[y];
+                obj.GetComponent<Picker>().colorType = type;
+
+                var child = obj.GetChild(0);
+                child.renderer.material.mainTexture = overlays[type];
+                
                 obj.renderer.material.color = palettes[y].colors[type];
 
                 if (ySize > 0)
                 {
+                    // If there's object above, deactivate this collider
+                    // TODO
+
                     obj.collider.enabled = false;
                 }
                 //grid[x, y, z] = obj;
@@ -124,6 +131,10 @@ public class GridInstance : MonoBehaviour {
                     if (!canBeTaken)
                     {
                         obj.renderer.material.color = otherObj.renderer.material.color;
+                        var colorType = otherObj.GetComponent<Picker>().colorType;
+                        obj.GetComponent<Picker>().colorType = colorType;
+                        var child = obj.GetChild(0);
+                        child.renderer.material.mainTexture = overlays[colorType];
                     }
                 }
             }
