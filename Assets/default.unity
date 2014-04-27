@@ -181,6 +181,11 @@ MonoBehaviour:
     - {r: .808823526, g: .18436417, b: .18436417, a: 1}
     - {r: .823529422, g: .468058705, b: .145328715, a: 1}
     - {r: .91911763, g: .331152648, b: .331152648, a: 1}
+  overlays:
+  - {fileID: 2800000, guid: eb8d735b345853c41ba98bb238ad723c, type: 3}
+  - {fileID: 2800000, guid: 4e6edb5251c438c4da8ca20bf2845b42, type: 3}
+  - {fileID: 2800000, guid: 97d20141b8c50e34ea845059f8e0bc19, type: 3}
+  - {fileID: 2800000, guid: a438f4d68ba3f23469d50e71bfc95197, type: 3}
 --- !u!114 &977046296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,10 +198,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xSize: 8
-  ySize: 3
   zSize: 8
   yBeginHeight: 3
-  ySpeed: 0
+  ySpeed: .100000001
   marigin: 1.10000002
   cubePrefab: {fileID: 400000, guid: bb0271d3d573e034c9c840a82a3fa73b, type: 2}
 --- !u!4 &977046297
@@ -357,7 +361,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1375637243}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: 3.5, y: 11, z: 3.79999995}
+  m_LocalPosition: {x: 3.5, y: 16, z: 3.79999995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

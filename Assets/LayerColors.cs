@@ -4,6 +4,7 @@ using System;
 
 public class LayerColors : MonoBehaviour {
     public ColorPalette[] palettes;
+    public Texture2D[] overlays;
 
     [Serializable]
     public class ColorPalette
