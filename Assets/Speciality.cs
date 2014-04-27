@@ -14,7 +14,7 @@ public class Speciality : MonoBehaviour {
     
     // Update is called once per frame
     void Update () {
-    
+        
     }
 
     public bool Trigger()

@@ -60,8 +60,9 @@ public class Picker : MonoBehaviour {
         float distance = Vector3.Distance(previousPick.position, transform.position);
         if (distance <= 2.0f && previousPick.renderer.material.color == renderer.material.color && GetComponentInChildren<SelectionCube>() == null)
         {
+            // Debug.Log(GetComponent<Picker>().index + " " + previousPick.GetComponent<Picker>().index);
             // Should also exist in the current layer
-            if (transform.parent == previousPick.parent)
+            if (GetComponent<Picker>().index.y == previousPick.GetComponent<Picker>().index.y)
                 return true;
             //if (index.y == previousPick.GetComponent<Picker>().index.y)
             //    return true;
@@ -131,7 +132,8 @@ public class Picker : MonoBehaviour {
     {
         if (pickedObjects.Count < 2)
         {
-            pickedObjects[0].collider.enabled = true;
+            if (pickedObjects[0].renderer.enabled)
+                pickedObjects[0].collider.enabled = true;
             Destroy(pickedObjects[0].GetComponentInChildren<SelectionCube>().gameObject);
             pickedObjects.Clear();
         }
