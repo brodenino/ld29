@@ -160,7 +160,8 @@ public class GridInstance : MonoBehaviour {
                 {
                     //var obj = grid[x, y, z];
                     var obj = grid2D[x, z];
-                    obj.position += Vector3.up * ySpeed * Time.deltaTime;
+                    if (obj)
+                        obj.position += Vector3.up * ySpeed * Time.deltaTime;
                 }
             }
         }

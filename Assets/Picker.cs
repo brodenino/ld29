@@ -25,6 +25,9 @@ public class Picker : MonoBehaviour {
     void Update () {
         if (fadeOutCurrent > 0)
         {
+            if (fadeOutCurrent == fadeOutDuration)
+                transform.parent.GetComponentInChildren<Score>().frameScore++;
+
             fadeOutCurrent = Mathf.Max(0, fadeOutCurrent - Time.deltaTime);
 
             var color = renderer.material.color;
@@ -44,6 +47,8 @@ public class Picker : MonoBehaviour {
                 foreach (Transform child in transform)
                 {
                     child.renderer.enabled = false;
+                    transform.parent.GetComponent<GridInstance>().dynGrid[(int)index.y][(int)index.x, (int)index.z] = null;
+                    Destroy(gameObject);
                 }
             }
         }
@@ -106,7 +111,7 @@ public class Picker : MonoBehaviour {
         var pickComponent = GetComponent<Picker>();
         var objectAbove = gridInstance.GetGridObject((int)(pickComponent.index.x), (int)Mathf.Max(0, pickComponent.index.y - 1), (int)(pickComponent.index.z));
 
-        if (objectAbove != transform && objectAbove.renderer.enabled)
+        if (objectAbove && objectAbove != transform && objectAbove.renderer.enabled)
             return true;
         else
             return false;
@@ -121,7 +126,7 @@ public class Picker : MonoBehaviour {
         //Debug.Log("Above: " + pick.GetInstanceID() + " " + debug);
         var objectAbove = gridInstance.GetGridObject((int)(pickComponent.index.x), (int)Mathf.Max(0, pickComponent.index.y - 1), (int)(pickComponent.index.z));
 
-        if (objectAbove != pick && objectAbove.renderer.enabled)
+        if (objectAbove && objectAbove != pick && objectAbove.renderer.enabled)
         {
             aliveObjects.Add(objectAbove);
             GetAliveObjectsAbove(gridInstance, objectAbove, aliveObjects);
@@ -155,7 +160,7 @@ public class Picker : MonoBehaviour {
             var objectBeneath = gridInstance.GetGridObject((int)(pickComponent.index.x), (int)Mathf.Min(gridInstance.ySize - 1, pickComponent.index.y + 1), (int)(pickComponent.index.z));
        //     Debug.Log("A");
 
-            if (objectBeneath != pick)
+            if (objectBeneath && objectBeneath != pick)
                 objectBeneath.collider.enabled = true;
 
             //var objectAbove = gridInstance.grid[(int)(pickComponent.index.x), (int)Mathf.Min(gridInstance.ySize - 1, pickComponent.index.y + 1), (int)(pickComponent.index.z)];
@@ -164,7 +169,7 @@ public class Picker : MonoBehaviour {
             var objectAbove = gridInstance.GetGridObject((int)(pickComponent.index.x), (int)Mathf.Max(0, pickComponent.index.y - 1), (int)(pickComponent.index.z));
         //    Debug.Log("B");
 
-            if (objectAbove != pick && objectAbove.collider.enabled)
+            if (objectAbove && objectAbove != pick && objectAbove.collider.enabled)
             {
                 objectAbove.GetComponent<Picker>().fadeOutCurrent = fadeOutDuration;
                 objectAbove.collider.enabled = false;
@@ -191,7 +196,7 @@ public class Picker : MonoBehaviour {
             var pickComponent = pick.GetComponent<Picker>();
             var objectBeneath = gridInstance.GetGridObject((int)(pickComponent.index.x), (int)Mathf.Min(gridInstance.ySize - 1, pickComponent.index.y + 1), (int)(pickComponent.index.z));
 
-            if (objectBeneath != pick)
+            if (objectBeneath && objectBeneath != pick)
             {
                 objectBeneath.GetComponent<Speciality>().isAvailable = true;
                 var powerupOverlay = objectBeneath.GetComponentInChildren<PowerupOverlay>();
@@ -201,9 +206,12 @@ public class Picker : MonoBehaviour {
             }
             transform.parent.audio.clip = powerUpSpawnSound;
         }
-        else if (!explosion)
+        else
             transform.parent.audio.clip = clearSound;
-        /*
+
+        if (explosion)
+            transform.parent.audio.clip = explodeSound;
+         /*
         if (pickedObjects.Count >= 6)
         {
            // Debug.Log("Explode");

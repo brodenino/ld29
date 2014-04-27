@@ -262,7 +262,7 @@ MonoBehaviour:
   colorType: 0
   fadeOutDuration: .5
   fadeOutCurrent: 0
-  explodeSound: {fileID: 0}
+  explodeSound: {fileID: 8300000, guid: d50d44d14d445ce47a2acb244a52a188, type: 3}
   clearSound: {fileID: 8300000, guid: d5425996c7702254185ab26b099b0e4c, type: 3}
   powerUpSpawnSound: {fileID: 8300000, guid: 30b70b102c8a93741aa1a10852331fe7, type: 3}
 --- !u!114 &11400002

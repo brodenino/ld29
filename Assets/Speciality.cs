@@ -36,7 +36,7 @@ public class Speciality : MonoBehaviour {
 
                 var neighbour = gridInstance.GetGridObject(nx, (int)randomPickComponent.index.y, nz);
 
-                if (neighbour != explodeObj)
+                if (neighbour && neighbour != explodeObj)
                 {
                     var fadeOutDuration = neighbour.GetComponent<Picker>().fadeOutDuration;
 
@@ -49,7 +49,7 @@ public class Speciality : MonoBehaviour {
                     //Debug.Log((int)Mathf.Max(gridInstance.ySize - 1, neighbourPick.index.y + 1));
                     var objectBeneath = gridInstance.GetGridObject((int)(neighbourPick.index.x), (int)Mathf.Min(gridInstance.ySize - 1, neighbourPick.index.y + 1), (int)(neighbourPick.index.z));
 
-                    if (objectBeneath != neighbour)
+                    if (objectBeneath && objectBeneath != neighbour)
                         objectBeneath.collider.enabled = true;
 
                     List<Transform> aboveObjects = new List<Transform>();
