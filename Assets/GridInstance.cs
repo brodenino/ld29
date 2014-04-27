@@ -63,18 +63,73 @@ public class GridInstance : MonoBehaviour {
                 
                 obj.renderer.material.color = palettes[y].colors[type];
 
-                if (ySize > 0)
+                /*if (ySize > 0)
                 {
-                    // If there's object above, deactivate this collider
-                    // TODO
-
+                
                     obj.collider.enabled = false;
-                }
+                }*/
                 //grid[x, y, z] = obj;
                 grid2D[x, z] = obj;
             }
         }
         dynGrid.Add(grid2D);
+
+        for (int x = 0; x < xSize; x++)
+        {
+            for (int z = 0; z < zSize; z++)
+            {
+                //var obj = grid[x, y, z];
+                var obj = dynGrid[ySize - 1][x, z];
+
+                // Check if the object is the topmost one. If not, disable collider.
+                var pick = obj.GetComponent<Picker>();
+                var list = new List<Transform>();
+                pick.GetAliveObjectsAbove(this, pick.transform, list);
+                if (pick.HasAliveObjectsAbove(this))
+                    pick.collider.enabled = false;
+                else
+                    pick.collider.enabled = true;
+
+                // Check for cubes that can't be taken
+                bool canBeTaken = false;
+                Transform otherObj = null;
+                for (int offsetX = -1; offsetX <= 1; offsetX++)
+                {
+                    for (int offsetZ = -1; offsetZ <= 1; offsetZ++)
+                    {
+                        int nx = x + offsetX;
+                        int nz = z + offsetZ;
+
+                        if (offsetX != 0 &&
+                            offsetZ != 0 &&
+                            nx < xSize &&
+                            nz < zSize &&
+                            nx >= 0 &&
+                            nz >= 0)
+                        {
+                            //otherObj = grid[nx, y, nz];
+                            otherObj = dynGrid[ySize - 1][nx, nz];
+
+                            if (obj.renderer.material.color == otherObj.renderer.material.color)
+                            {
+                                canBeTaken = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (canBeTaken)
+                        break;
+                }
+                if (!canBeTaken)
+                {
+                    obj.renderer.material.color = otherObj.renderer.material.color;
+                    var colorType = otherObj.GetComponent<Picker>().colorType;
+                    obj.GetComponent<Picker>().colorType = colorType;
+                    var child = obj.GetChild(0);
+                    child.renderer.material.mainTexture = overlays[colorType];
+                }
+            }
+        }
     }
 
     // Use this for initialization
@@ -88,58 +143,7 @@ public class GridInstance : MonoBehaviour {
         {
             AddGridLayer();
         }
-        // Check for cubes that can't be taken
-        for (int x = 0; x < xSize; x++)
-        {
-            for (int y = 0; y < ySize; y++)
-            {
-                for (int z = 0; z < zSize; z++)
-                {
-                    //var obj = grid[x, y, z];
-                    var obj = dynGrid[y][x, z];
 
-                    bool canBeTaken = false;
-                    Transform otherObj = null;
-                    for (int offsetX = -1; offsetX <= 1; offsetX++)
-                    {
-                        for (int offsetZ = -1; offsetZ <= 1; offsetZ++)
-                        {
-                            int nx = x + offsetX;
-                            int nz = z + offsetZ;
-
-                            if (offsetX != 0 &&
-                                offsetZ != 0 &&
-                                nx < xSize &&
-                                nz < zSize &&
-                                nx >= 0 &&
-                                nz >= 0)
-                            {
-                                //otherObj = grid[nx, y, nz];
-                                var d = dynGrid[y];
-                                otherObj = d[nx, nz];
-
-                                if (obj.renderer.material.color == otherObj.renderer.material.color)
-                                {
-                                    canBeTaken = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (canBeTaken)
-                            break;
-                    }
-                    if (!canBeTaken)
-                    {
-                        obj.renderer.material.color = otherObj.renderer.material.color;
-                        var colorType = otherObj.GetComponent<Picker>().colorType;
-                        obj.GetComponent<Picker>().colorType = colorType;
-                        var child = obj.GetChild(0);
-                        child.renderer.material.mainTexture = overlays[colorType];
-                    }
-                }
-            }
-        }
-    
     }
     
     int     heightIndex = 0;

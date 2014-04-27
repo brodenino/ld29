@@ -99,18 +99,27 @@ public class Picker : MonoBehaviour {
         }
     }
 
+    public bool HasAliveObjectsAbove(GridInstance gridInstance)
+    {
+        var pickComponent = GetComponent<Picker>();
+        var objectAbove = gridInstance.GetGridObject((int)(pickComponent.index.x), (int)Mathf.Max(0, pickComponent.index.y - 1), (int)(pickComponent.index.z));
 
+        if (objectAbove != transform && objectAbove.renderer.enabled)
+            return true;
+        else
+            return false;
+    }
 
-    void GetAliveObjectsAbove(GridInstance gridInstance, Transform pick, List<Transform> aliveObjects)
+    public void GetAliveObjectsAbove(GridInstance gridInstance, Transform pick, List<Transform> aliveObjects)
     {
         var pickComponent = pick.GetComponent<Picker>();
         //var objectAbove = gridInstance.grid[(int)(pickComponent.index.x), (int)Mathf.Min(gridInstance.ySize - 1, pickComponent.index.y + 1), (int)(pickComponent.index.z)];
         //var objectAbove = gridInstance.GetGridObject((int)(pickComponent.index.x), (int)Mathf.Min(gridInstance.ySize - 1, pickComponent.index.y + 1), (int)(pickComponent.index.z));
-        Vector3 debug = new Vector3((int)(pickComponent.index.x), (int)Mathf.Max(0, pickComponent.index.y - 1), (int)(pickComponent.index.z));
-     //   Debug.Log("Above: " + pick.GetInstanceID() + " " + debug);
+        //Vector3 debug = new Vector3((int)(pickComponent.index.x), (int)Mathf.Max(0, pickComponent.index.y - 1), (int)(pickComponent.index.z));
+        //Debug.Log("Above: " + pick.GetInstanceID() + " " + debug);
         var objectAbove = gridInstance.GetGridObject((int)(pickComponent.index.x), (int)Mathf.Max(0, pickComponent.index.y - 1), (int)(pickComponent.index.z));
 
-        if (objectAbove != pick)// && objectAbove.collider.enabled)
+        if (objectAbove != pick && objectAbove.renderer.enabled)
         {
             aliveObjects.Add(objectAbove);
             GetAliveObjectsAbove(gridInstance, objectAbove, aliveObjects);
