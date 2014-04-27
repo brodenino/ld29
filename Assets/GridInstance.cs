@@ -17,6 +17,7 @@ public class GridInstance : MonoBehaviour {
     public Transform        cubePrefab;
 
     public List<Transform[,]> dynGrid = new List<Transform[,]>();
+    public List<float> layerHeights = new List<float>();
 
     public Transform[,] GetGrid2D(int height)
     {
@@ -72,6 +73,12 @@ public class GridInstance : MonoBehaviour {
                 grid2D[x, z] = obj;
             }
         }
+
+        if (overridePosY != Int16.MaxValue)
+            layerHeights.Add(overridePosY);
+        else
+            layerHeights.Add(-dynGrid.Count * marigin);
+
         dynGrid.Add(grid2D);
 
         for (int x = 0; x < xSize; x++)
@@ -151,11 +158,13 @@ public class GridInstance : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        for (int x = 0; x < xSize; x++)
+        for (int y = 0; y < ySize; y++)
         {
-            for (int y = 0; y < ySize; y++)
+            var grid2D = dynGrid[y];
+            layerHeights[y] += ySpeed * Time.deltaTime;
+
+            for (int x = 0; x < xSize; x++)
             {
-                var grid2D = dynGrid[y];
                 for (int z = 0; z < zSize; z++)
                 {
                     //var obj = grid[x, y, z];
@@ -167,11 +176,11 @@ public class GridInstance : MonoBehaviour {
         }
 
         // Just check one object position, it doesn't matter. Check height, and see when a new grid should be added.
-        heightOffset = dynGrid[heightIndex][0, 0].position.y;
+        heightOffset = layerHeights[heightIndex];
         if (heightOffset >= marigin)
         {
             heightIndex++;
-            AddGridLayer( dynGrid[ySize - 1][0, 0].position.y - marigin );
+            AddGridLayer( layerHeights[ySize - 1] - marigin );
         }
     }
 }

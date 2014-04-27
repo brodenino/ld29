@@ -48,7 +48,7 @@ public class Picker : MonoBehaviour {
                 {
                     child.renderer.enabled = false;
                     transform.parent.GetComponent<GridInstance>().dynGrid[(int)index.y][(int)index.x, (int)index.z] = null;
-                    Destroy(gameObject);
+                    //Destroy(gameObject);
                 }
             }
         }

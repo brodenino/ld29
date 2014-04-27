@@ -4,6 +4,8 @@ using System.Collections.Generic;
 public class Speciality : MonoBehaviour {
     public bool isAvailable = false;
 
+    public bool alreadyTriggered = false;
+
     public AudioClip explodeSound;
     public Texture2D texture;
 
@@ -19,8 +21,12 @@ public class Speciality : MonoBehaviour {
 
     public bool Trigger()
     {
-        if (!isAvailable)
+        if (!isAvailable || alreadyTriggered)
+        {
             return false;
+        }
+
+        alreadyTriggered = true;
 
         var explodeObj = this;
         var gridInstance = transform.parent.GetComponent<GridInstance>();
@@ -55,7 +61,7 @@ public class Speciality : MonoBehaviour {
                     List<Transform> aboveObjects = new List<Transform>();
                     neighbour.GetComponent<Picker>().GetAliveObjectsAbove(gridInstance, neighbour, aboveObjects);
 
-                    //neighbour.GetComponent<Speciality>().Trigger();
+                    neighbour.GetComponent<Speciality>().Trigger();
                     //Debug.Log("Objects to break: " + aboveObjects.Count);
                     foreach (Transform t in aboveObjects)
                     {
