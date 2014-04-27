@@ -9,7 +9,7 @@ public class Score : MonoBehaviour {
     public Transform scoreText;
     public Transform frameScoreText;
 
-    public float fadeOutDuration = 0.5f;
+    public float fadeOutDuration = 1.0f;
 
     public float fadeOutCurrent = 0;
 
@@ -20,15 +20,16 @@ public class Score : MonoBehaviour {
     
     // Update is called once per frame
     void Update () {
+        int accumulatedFrameScore = 0;
         for (int i = 0; i < frameScore; i++)
         {
-            score += (i+1); 
+            accumulatedFrameScore += (i+1); 
         }
-
+        score += accumulatedFrameScore;
 
         if (frameScore > 0)
         {
-            frameScoreText.guiText.text = "+" + frameScore;
+            frameScoreText.guiText.text = "+" + accumulatedFrameScore;
             frameScoreText.guiText.enabled = true;
             fadeOutCurrent = fadeOutDuration;
             scoreText.guiText.text = "Score: " + score;
