@@ -14,6 +14,7 @@ public class Picker : MonoBehaviour {
 
     public AudioClip explodeSound;
     public AudioClip clearSound;
+    public AudioClip powerUpSpawnSound;
 
     // Use this for initialization
     void Start () {
@@ -138,6 +139,7 @@ public class Picker : MonoBehaviour {
 
         var gridInstance = transform.parent.GetComponent<GridInstance>();
 
+        bool explosion = false;
         foreach (var pick in pickedObjects)
         {
             
@@ -169,10 +171,37 @@ public class Picker : MonoBehaviour {
             pickComponent.fadeOutCurrent = fadeOutDuration;
             if (pick.transform.childCount > 0)
                 pick.GetComponentInChildren<SelectionCube>().renderer.enabled = false;
+
+            bool b = pick.GetComponent<Speciality>().Trigger();
+            if (b && !explosion)
+                explosion = true;
         }
 
         int i = 0;
 
+        // TODO: Instead of exploding blocks if the player gets more than 6 blocks cleared, spawn a powerup
+        // on the layer below on the last tile that was pressed.
+        int spawnChance = Random.Range(2, 12);
+        if (pickedObjects.Count >= spawnChance)
+        {
+            // Make a special tile if there is one below!
+            var pick = pickedObjects[pickedObjects.Count-1];
+            var pickComponent = pick.GetComponent<Picker>();
+            var objectBeneath = gridInstance.GetGridObject((int)(pickComponent.index.x), (int)Mathf.Min(gridInstance.ySize - 1, pickComponent.index.y + 1), (int)(pickComponent.index.z));
+
+            if (objectBeneath != pick)
+            {
+                objectBeneath.GetComponent<Speciality>().isAvailable = true;
+                var powerupOverlay = objectBeneath.GetComponentInChildren<PowerupOverlay>();
+                powerupOverlay.renderer.material.mainTexture = objectBeneath.GetComponent<Speciality>().texture;
+                powerupOverlay.renderer.material.color = Color.white;
+
+            }
+            transform.parent.audio.clip = powerUpSpawnSound;
+        }
+        else if (!explosion)
+            transform.parent.audio.clip = clearSound;
+        /*
         if (pickedObjects.Count >= 6)
         {
            // Debug.Log("Explode");
@@ -186,12 +215,8 @@ public class Picker : MonoBehaviour {
                     // constrain
                     int nx = Mathf.Clamp((int)(randomPickComponent.index.x) + x, 0, gridInstance.xSize - 1);
                     int nz = Mathf.Clamp((int)(randomPickComponent.index.z) + z, 0, gridInstance.zSize - 1);
-                    Debug.Log(nx + " " + nz);
 
-                    //var neighbour = gridInstance.grid[nx, (int)randomPickComponent.index.y, nz];
-                   // Debug.Log("C");
                     var neighbour = gridInstance.GetGridObject(nx, (int)randomPickComponent.index.y, nz);
-                    //Debug.Log("D");
 
                     if (neighbour != explodeObj)
                     {
@@ -201,14 +226,13 @@ public class Picker : MonoBehaviour {
                         var neighbourPick = neighbour.GetComponent<Picker>();
                         //var objectBeneath = gridInstance.grid[(int)(neighbourPick.index.x), (int)Mathf.Max(0, neighbourPick.index.y - 1), (int)(neighbourPick.index.z)];
                         //var objectBeneath = gridInstance.GetGridObject((int)(neighbourPick.index.x), (int)Mathf.Max(0, neighbourPick.index.y - 1), (int)(neighbourPick.index.z));
-                        Debug.Log((int)Mathf.Max(gridInstance.ySize - 1, neighbourPick.index.y + 1));
+                        //Debug.Log((int)Mathf.Max(gridInstance.ySize - 1, neighbourPick.index.y + 1));
                         var objectBeneath = gridInstance.GetGridObject((int)(neighbourPick.index.x), (int)Mathf.Min(gridInstance.ySize - 1, neighbourPick.index.y + 1), (int)(neighbourPick.index.z));
 
                         if (objectBeneath != neighbour)
                             objectBeneath.collider.enabled = true;
 
                         List<Transform> aboveObjects = new List<Transform>();
-                        //Debug.Log("E");
                         GetAliveObjectsAbove(gridInstance, neighbour, aboveObjects);
 
                         //Debug.Log("Objects to break: " + aboveObjects.Count);
@@ -224,7 +248,7 @@ public class Picker : MonoBehaviour {
         }
         else
             transform.parent.audio.clip = clearSound;
-
+        */
         if (pickedObjects.Count > 0)
             transform.parent.audio.Play();
 

@@ -58,7 +58,7 @@ public class GridInstance : MonoBehaviour {
 
                 obj.GetComponent<Picker>().colorType = type;
 
-                var child = obj.GetChild(0);
+                var child = obj.GetComponentInChildren<ShapeOverlay>();
                 child.renderer.material.mainTexture = overlays[type];
                 
                 obj.renderer.material.color = palettes[y].colors[type];
@@ -125,7 +125,7 @@ public class GridInstance : MonoBehaviour {
                     obj.renderer.material.color = otherObj.renderer.material.color;
                     var colorType = otherObj.GetComponent<Picker>().colorType;
                     obj.GetComponent<Picker>().colorType = colorType;
-                    var child = obj.GetChild(0);
+                    var child = obj.GetComponentInChildren<ShapeOverlay>();
                     child.renderer.material.mainTexture = overlays[colorType];
                 }
             }
