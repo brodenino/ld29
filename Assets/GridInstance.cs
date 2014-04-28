@@ -24,6 +24,8 @@ public class GridInstance : MonoBehaviour {
     public List<float> layerHeights = new List<float>();
     public List<Transform> layers = new List<Transform>();
 
+    int maxWidth = 128;
+
     public Transform[,] GetGrid2D(int height)
     {
         return dynGrid[height];
@@ -161,7 +163,8 @@ public class GridInstance : MonoBehaviour {
     // Use this for initialization
     void Start () {
         //grid = new Transform[xSize, ySize, zSize];
-        
+        //maxWidth = (int)142.0f * Screen.width / Screen.height;
+
         palettes = GetComponent<LayerColors>().palettes;
         overlays = GetComponent<LayerColors>().overlays;
 
@@ -178,7 +181,7 @@ public class GridInstance : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        if (defeatText.guiText.enabled && Input.anyKey && layers[ySize - 1].childCount == 0)
+        if (defeatText.guiText.enabled && Input.GetKey(KeyCode.Space) && layers[ySize - 1].childCount == 0)
         {
             Application.LoadLevel(0);
         }
@@ -211,8 +214,12 @@ public class GridInstance : MonoBehaviour {
                 break;
             }
         }
+        //var inset = dangerTexture.guiTexture.pixelInset;
+        //inset.width = Mathf.Max(-255 * danger, -255);
+        //dangerTexture.guiTexture.pixelInset = inset;
+        //Debug.Log(((int)Mathf.Clamp((1 - danger) * maxWidth, 0, maxWidth)));
         var inset = dangerTexture.guiTexture.pixelInset;
-        inset.width = Mathf.Max(-255 * danger, -255);
+        inset.width = (int)Mathf.Clamp((1 - danger) * maxWidth, 0, maxWidth); 
         dangerTexture.guiTexture.pixelInset = inset;
 
         // Just check one object position, it doesn't matter. Check height, and see when a new grid should be added.

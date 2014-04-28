@@ -168,8 +168,8 @@ Transform:
   m_PrefabInternal: {fileID: 416442141}
   m_GameObject: {fileID: 142501228}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .148000002, y: .829999983, z: 0}
-  m_LocalScale: {x: .25, y: .100000001, z: 1}
+  m_LocalPosition: {x: .0370000005, y: .800000012, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1423533788}
 --- !u!131 &142501230
@@ -186,8 +186,8 @@ GUITexture:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 0
-    height: 0
+    width: 148
+    height: 40
   m_LeftBorder: 4
   m_RightBorder: 4
   m_TopBorder: 4
@@ -270,6 +270,82 @@ Prefab:
     - target: {fileID: 400006, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 13100000, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_PixelInset.width
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 13100000, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_LeftBorder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: .0370000005
+      objectReference: {fileID: 0}
+    - target: {fileID: 13100002, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_PixelInset.height
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 13100002, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_PixelInset.width
+      value: 148
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: .800000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 13100000, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_PixelInset.height
+      value: 21.6499996
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 13100000, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_PixelInset.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 13100002, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_PixelInset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: .0370000005
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: .800000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 13100000, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_PixelInset.y
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 13200002, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
+      propertyPath: m_Text
+      value: ~Press <Space> to play again~
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 881eedb26112bc1438d21d128eaa8094, type: 2}
@@ -1066,8 +1142,8 @@ Transform:
   m_PrefabInternal: {fileID: 416442141}
   m_GameObject: {fileID: 1771719730}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .148000002, y: .829999983, z: 0}
-  m_LocalScale: {x: .228, y: .0599999987, z: 1}
+  m_LocalPosition: {x: .0370000005, y: .800000012, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1423533788}
 --- !u!131 &1771719732
@@ -1082,10 +1158,10 @@ GUITexture:
   m_Color: {r: .301470578, g: .212802753, b: .212802753, a: 1}
   m_PixelInset:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: -255
-    height: 0
+    x: 10
+    y: 9
+    width: 128
+    height: 21.6499996
   m_LeftBorder: 0
   m_RightBorder: 0
   m_TopBorder: 0
@@ -1177,7 +1253,7 @@ GUIText:
   m_GameObject: {fileID: 2011930570}
   m_Enabled: 0
   serializedVersion: 3
-  m_Text: ~Press any key to play again~
+  m_Text: ~Press <Space> to play again~
   m_Anchor: 1
   m_Alignment: 1
   m_PixelOffset: {x: 0, y: 0}
