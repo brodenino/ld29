@@ -23,10 +23,11 @@ public class Picker : MonoBehaviour {
     
     // Update is called once per frame
     void Update () {
+
         if (fadeOutCurrent > 0)
         {
             if (fadeOutCurrent == fadeOutDuration)
-                transform.parent.GetComponentInChildren<Score>().frameScore++;
+                transform.parent.parent.GetComponentInChildren<Score>().frameScore++;
 
             fadeOutCurrent = Mathf.Max(0, fadeOutCurrent - Time.deltaTime);
 
@@ -47,8 +48,8 @@ public class Picker : MonoBehaviour {
                 foreach (Transform child in transform)
                 {
                     child.renderer.enabled = false;
-                    transform.parent.GetComponent<GridInstance>().dynGrid[(int)index.y][(int)index.x, (int)index.z] = null;
-                    //Destroy(gameObject);
+                    transform.parent.parent.GetComponent<GridInstance>().dynGrid[(int)index.y][(int)index.x, (int)index.z] = null;
+                    Destroy(gameObject);
                 }
             }
         }
@@ -144,7 +145,7 @@ public class Picker : MonoBehaviour {
         }
 
 
-        var gridInstance = transform.parent.GetComponent<GridInstance>();
+        var gridInstance = transform.parent.parent.GetComponent<GridInstance>();
 
         bool explosion = false;
         foreach (var pick in pickedObjects)
@@ -186,8 +187,6 @@ public class Picker : MonoBehaviour {
 
         int i = 0;
 
-        // TODO: Instead of exploding blocks if the player gets more than 6 blocks cleared, spawn a powerup
-        // on the layer below on the last tile that was pressed.
         int spawnChance = Random.Range(2, 12);
         if (pickedObjects.Count >= spawnChance)
         {
@@ -201,16 +200,16 @@ public class Picker : MonoBehaviour {
                 objectBeneath.GetComponent<Speciality>().isAvailable = true;
                 var powerupOverlay = objectBeneath.GetComponentInChildren<PowerupOverlay>();
                 powerupOverlay.renderer.material.mainTexture = objectBeneath.GetComponent<Speciality>().texture;
-                powerupOverlay.renderer.material.color = Color.white;
+                //powerupOverlay.renderer.material.color = Color.grey;
 
             }
-            transform.parent.audio.clip = powerUpSpawnSound;
+            transform.parent.parent.audio.clip = powerUpSpawnSound;
         }
         else
-            transform.parent.audio.clip = clearSound;
+            transform.parent.parent.audio.clip = clearSound;
 
         if (explosion)
-            transform.parent.audio.clip = explodeSound;
+            transform.parent.parent.audio.clip = explodeSound;
          /*
         if (pickedObjects.Count >= 6)
         {
@@ -260,7 +259,7 @@ public class Picker : MonoBehaviour {
             transform.parent.audio.clip = clearSound;
         */
         if (pickedObjects.Count > 0)
-            transform.parent.audio.Play();
+            transform.parent.parent.audio.Play();
 
         pickedObjects.Clear();
     }

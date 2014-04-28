@@ -10,6 +10,7 @@ public class SelectionCube : MonoBehaviour {
     
     // Update is called once per frame
     void Update () {
+        transform.eulerAngles = Vector3.zero;
         if (!transform.parent.renderer.enabled && renderer.enabled)
         {
             renderer.enabled = false;

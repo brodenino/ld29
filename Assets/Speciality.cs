@@ -29,7 +29,7 @@ public class Speciality : MonoBehaviour {
         alreadyTriggered = true;
 
         var explodeObj = this;
-        var gridInstance = transform.parent.GetComponent<GridInstance>();
+        var gridInstance = transform.parent.parent.GetComponent<GridInstance>();
         var randomPickComponent = explodeObj.GetComponent<Picker>();
         // Find all objects nearby, and have them explode.
         for (int x = -1; x <= 1; x += 1)
@@ -72,7 +72,7 @@ public class Speciality : MonoBehaviour {
                 }
             }
         }
-        transform.parent.audio.clip = explodeSound;
+        transform.parent.parent.audio.clip = explodeSound;
         return true;
     }
 
